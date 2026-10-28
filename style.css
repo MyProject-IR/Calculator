@@ -10,9 +10,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(-45deg, #1e1e2f, #2a2a40, #1a1a2e, #16213e);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+  background-image: url('./Wallpaper\ \(1\).jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 20px;
 }
 
