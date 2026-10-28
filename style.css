@@ -65,7 +65,7 @@ button {
   transition:
     transform 0.1s ease,
     filter 0.15s ease;
-  color: #dc4949;
+  color: #ab1212;
   user-select: none;
   position: relative;
   overflow: hidden;
