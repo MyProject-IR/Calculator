@@ -15,6 +15,7 @@ let operation = '';
 btnNumber.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
     const number = e.target.dataset.number;
+    if (operation === '' && previousNumber === '') currentNumber = '';
     if (number === '.' && currentNumber.includes('.')) return;
     if (currentNumber === '0' && number !== '.') {
       currentNumber = number;
@@ -30,10 +31,20 @@ btnNumber.forEach(function (btn) {
 btnOperator.forEach(function (op) {
   op.addEventListener('click', function (e) {
     const operator = e.target.dataset.operation;
-    previousNumber = currentNumber;
-    currentNumber = '';
-    operation = operator;
-    display.textContent = previousNumber + ' ' + operation;
+
+    if (currentNumber === '' && previousNumber !== '') {
+      operation = operator;
+    } else {
+      previousNumber = currentNumber;
+      currentNumber = '';
+      operation = operator;
+    }
+
+    let displayOp = operator;
+    if (operator === '*') displayOp = '×';
+    if (operator === '/') displayOp = '÷';
+
+    display.textContent = previousNumber + ' ' + displayOp;
   });
 });
 
@@ -63,8 +74,6 @@ btnEquals.addEventListener('click', function () {
   operation = '';
 });
 
-//..........اکشن.........
-
 btnAction.forEach(function (AC) {
   AC.addEventListener('click', function (e) {
     const reset = e.target.dataset.action;
@@ -75,7 +84,12 @@ btnAction.forEach(function (AC) {
       display.textContent = '0';
     } else if (reset === 'delete') {
       currentNumber = currentNumber.slice(0, -1);
-      display.textContent = currentNumber;
+
+      if (currentNumber === '') {
+        display.textContent = '0';
+      } else {
+        display.textContent = currentNumber;
+      }
     } else if (reset === '%') {
       currentNumber = String(Number(currentNumber) / 100);
       display.textContent = currentNumber;
