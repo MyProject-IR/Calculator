@@ -40,6 +40,29 @@ body {
 }
 
 /* ---------- Display ---------- */
+.history {
+  background: rgba(0, 0, 0, 0.3);
+  color: #a5a5a5;
+  font-size: 1rem;
+  text-align: right;
+  padding: 10px 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  max-height: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
 .display {
   background: #000;
   color: #fff;
