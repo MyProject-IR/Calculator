@@ -1,5 +1,26 @@
 'use strict';
 
+function playClickSound() {
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  oscillator.type = 'sine';
+  oscillator.frequency.value = 800;
+
+  gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(
+    0.0001,
+    audioCtx.currentTime + 0.05,
+  );
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  oscillator.start();
+  oscillator.stop(audioCtx.currentTime + 0.05);
+}
+const historyList = document.getElementById('history');
 const btnAction = document.querySelectorAll('.btn-action');
 const btnNumber = document.querySelectorAll('.btn-number');
 const btnOperator = document.querySelectorAll('.btn-operator');
@@ -15,7 +36,7 @@ let operation = '';
 btnNumber.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
     const number = e.target.dataset.number;
-    
+    playClickSound();
     if (number === '.' && currentNumber.includes('.')) return;
     if (currentNumber === '0' && number !== '.') {
       currentNumber = number;
@@ -49,6 +70,7 @@ btnOperator.forEach(function (op) {
 });
 
 btnEquals.addEventListener('click', function () {
+  playClickSound();
   if (!operation || !currentNumber) return;
   let result;
   if (operation === '+') {
@@ -67,7 +89,7 @@ btnEquals.addEventListener('click', function () {
     operation = '';
     return;
   }
-
+  addToHistory(`${previousNumber} ${operation} ${currentNumber} = ${result}`);
   currentNumber = String(result);
   display.textContent = currentNumber;
   previousNumber = '';
@@ -76,8 +98,10 @@ btnEquals.addEventListener('click', function () {
 
 btnAction.forEach(function (AC) {
   AC.addEventListener('click', function (e) {
+    playClickSound();
     const reset = e.target.dataset.action;
     if (reset === 'clear') {
+      historyList.innerHTML = '';
       currentNumber = '';
       previousNumber = '';
       operation = '';
@@ -96,3 +120,10 @@ btnAction.forEach(function (AC) {
     }
   });
 });
+function addToHistory(text) {
+  const item = document.createElement('div');
+  item.classList.add('history-item');
+  item.textContent = text;
+  historyList.appendChild(item);
+  historyList.scrollTop = historyList.scrollHeight; //
+}
