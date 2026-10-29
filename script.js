@@ -15,7 +15,7 @@ let operation = '';
 btnNumber.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
     const number = e.target.dataset.number;
-    if (operation === '' && previousNumber === '') currentNumber = '';
+    
     if (number === '.' && currentNumber.includes('.')) return;
     if (currentNumber === '0' && number !== '.') {
       currentNumber = number;
